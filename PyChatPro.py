@@ -15,7 +15,7 @@ if api_key is None:
 genai.configure(api_key=api_key)
 
 # Set title
-st.title("Python Programming Chatbot")
+st.title("PyChatPro")
 
 # Model Initiation
 model = genai.GenerativeModel('gemini-1.5-flash')
