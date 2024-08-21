@@ -1,4 +1,5 @@
-# Python Programming Chatbot
+# PyChatPro
+
 
 This is a simple chatbot built using Google's Generative AI (Gemini API) and Streamlit. The chatbot is designed to assist with Python programming-related questions.
 
