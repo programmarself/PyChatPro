@@ -94,7 +94,8 @@ st.markdown("""
 # Form for user input
 with st.form(key="chat_form", clear_on_submit=True):
     user_input = st.text_input("Enter your Python programming question:", max_chars=2000)
-    submit_button = st.form_submit_button("Send")
+    submit_button = st.form_submit_button("Generate")
+
     
     if submit_button and user_input:
         # Add user input to history
