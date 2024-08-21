@@ -37,25 +37,17 @@ def getResponseFromModel(user_input):
         # Check if the input is related to Python programming
         elif "python" in user_input.lower():
             response = model.generate_content(user_input)
-            
-            # Debug: Inspect the raw response object
-            st.write("Raw response object:", response)
-
-            # Check if the response has valid content
             if response and hasattr(response, 'text'):
                 return response.text
             else:
                 # Handle the case where no valid content was returned
-                safety_ratings = getattr(response, 'safety_ratings', None)
-                if safety_ratings:
-                    st.write("Safety Ratings:", safety_ratings)
                 return "Sorry, I couldn't generate a valid response. Please try rephrasing your question."
         else:
             return "I'm a Python programming chatbot, so I can only help with Python-related questions."
     
     except Exception as e:
         st.error(f"Error generating response: {e}")
-        return "An unexpected error occurred. Please try again."
+        return None
 
 # Initialize session state if not already done
 if "history" not in st.session_state:
@@ -96,10 +88,6 @@ st.markdown("""
         white-space: pre-wrap;
         word-wrap: break-word;
     }
-    .chat-container {
-        max-height: 500px;
-        overflow-y: auto;
-    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -107,6 +95,7 @@ st.markdown("""
 with st.form(key="chat_form", clear_on_submit=True):
     user_input = st.text_input("Enter your Python programming question:", max_chars=2000)
     submit_button = st.form_submit_button("Generate")
+
     
     if submit_button and user_input:
         # Add user input to history
@@ -118,8 +107,7 @@ with st.form(key="chat_form", clear_on_submit=True):
             # Add model response to history
             st.session_state.history.insert(0, ("bot", output))
 
-# Display conversation history (newest first) in a scrollable container
-st.markdown('<div class="chat-container">', unsafe_allow_html=True)
+# Display conversation history (newest first)
 for entry in reversed(st.session_state.history):
     role, message = entry
     if role == "user":
@@ -134,12 +122,3 @@ for entry in reversed(st.session_state.history):
                     st.markdown(f'<div class="bot-message">{part}</div>', unsafe_allow_html=True)
         else:
             st.markdown(f'<div class="bot-message">{message}</div>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
-
-# Automatically scroll to the bottom of the chat container using JavaScript
-st.markdown("""
-    <script>
-    const chatContainer = document.querySelector('.chat-container');
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-    </script>
-""", unsafe_allow_html=True)
