@@ -15,7 +15,7 @@ if api_key is None:
 genai.configure(api_key=api_key)
 
 # Set title
-st.title("PyChatPro")
+st.title("Python Programming Chatbot")
 
 # Model Initiation
 model = genai.GenerativeModel('gemini-1.5-flash')
@@ -43,8 +43,7 @@ def getResponseFromModel(user_input):
                 # Handle the case where no valid content was returned
                 return "Sorry, I couldn't generate a valid response. Please try rephrasing your question."
         else:
-            return "I'm a PyChatPro
-, so I can only help with Python-related questions."
+            return "I'm a Python programming chatbot, so I can only help with Python-related questions."
     
     except Exception as e:
         st.error(f"Error generating response: {e}")
