@@ -29,22 +29,25 @@ def getResponseFromModel(user_input):
         if any(greet in user_input.lower() for greet in greetings):
             if "bye" in user_input.lower() or "goodbye" in user_input.lower():
                 return "Goodbye! Have a nice day!"
-            elif "aslam u alaikum" in user_input.lower():
+            elif "aslam u alaikum" in user_input.lower() or 'salam' in user_input.lower():
                 return "Wa Alaikum Assalam! How can I assist you with Python programming today?"
             else:
                 return "Hello! How can I assist you with Python programming today?"
         
-        # Check if the input is related to Python programming
-        elif "python" in user_input.lower():
-            response = model.generate_content(user_input)
+        
+        else:
+            response = model.generate_content(f"""
+                                              - Respond too the point, don't give too much explanation to user. 
+                                              - Try to give answer in three to five lines, if user need help in their python code then explain it as it is necessary.
+                                              - Remember you are a chatbot for python programming. dont give answer if that concept is not related to python programming.
+                                              - Your name is PyChatPro. 
+                                              - Here is user prompt: {user_input}
+""")
             if response and hasattr(response, 'text'):
                 return response.text
             else:
                 # Handle the case where no valid content was returned
                 return "Sorry, I couldn't generate a valid response. Please try rephrasing your question."
-        else:
-            return "I'm a Python programming chatbot, so I can only help with Python-related questions."
-    
     except Exception as e:
         st.error(f"Error generating response: {e}")
         return None
